@@ -10,7 +10,7 @@ public class ConnectDB {
     final String URL_DB = "jdbc:postgresql://localhost:5432/garageDB";
 
     final String USER = "postgres";
-    final String PASSWORD = "";
+    final String PASSWORD = "!@#321Nel";
 
     public void open() {
         try {
