@@ -3,7 +3,6 @@ package model;
 import java.sql.Timestamp;
 
 public class Vehicle {
-    public enum Employee { George_Mendez, Alicia_Keys, Marc_Lopez }
 
     private double price;
     private String type;
@@ -12,6 +11,16 @@ public class Vehicle {
     private String employee;
     private String plateNumber;
     private Timestamp timestamp;
+
+    public Vehicle() {}
+
+    public Vehicle(double price, String type, String customer, String employee, String plateNumber) {
+        this.price = price;
+        this.type = type;
+        this.customer = customer;
+        this.customer = employee;
+        this.plateNumber = plateNumber;
+    }
 
     public String getType() { return type; }
 
