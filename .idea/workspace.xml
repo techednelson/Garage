@@ -3,16 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="1813061d-8d55-42e9-8e58-cb88c5ff8d53" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Garage.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/database/GarageDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/database/GarageDaoImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Vehicle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Vehicle.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/services/VehicleServicesImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/services/VehicleServicesImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/database/GarageDaoImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/database/GarageDaoImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/main/main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/main/main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/Vehicle$Employee.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/Vehicle.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Vehicle.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/services/VehicleServices.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/services/VehicleServices.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/services/VehicleServicesImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/services/VehicleServicesImpl.class" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -24,10 +14,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="GarageDaoImpl.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="GarageDaoImpl.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/database/GarageDaoImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="489">
+            <state relative-caret-position="1330">
               <caret line="75" column="13" lean-forward="true" selection-start-line="75" selection-start-column="13" selection-end-line="75" selection-end-column="13" />
             </state>
           </provider>
@@ -36,8 +26,17 @@
       <file leaf-file-name="Vehicle.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/model/Vehicle.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="261">
+            <state relative-caret-position="350">
               <caret line="22" column="25" selection-start-line="22" selection-start-column="25" selection-end-line="22" selection-end-column="25" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ConnectDB.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/database/ConnectDB.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="475">
+              <caret line="27" lean-forward="true" selection-start-line="27" selection-end-line="27" />
             </state>
           </provider>
         </entry>
@@ -45,8 +44,8 @@
       <file leaf-file-name="VehicleServicesImpl.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/services/VehicleServicesImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="412">
-              <caret line="35" column="20" selection-start-line="35" selection-start-column="20" selection-end-line="35" selection-end-column="20" />
+            <state relative-caret-position="194">
+              <caret line="36" selection-start-line="36" selection-end-line="36" />
             </state>
           </provider>
         </entry>
@@ -72,6 +71,7 @@
         <option value="$PROJECT_DIR$/src/main/java/services/VehicleServices.java" />
         <option value="$PROJECT_DIR$/src/main/java/model/Vehicle.java" />
         <option value="$PROJECT_DIR$/src/main/java/services/VehicleServicesImpl.java" />
+        <option value="$PROJECT_DIR$/src/main/java/database/ConnectDB.java" />
       </list>
     </option>
   </component>
@@ -86,7 +86,7 @@
   </component>
   <component name="ProjectFrameBounds">
     <option name="y" value="23" />
-    <option name="width" value="1239" />
+    <option name="width" value="1038" />
     <option name="height" value="1057" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -252,16 +252,15 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1527025297817</updated>
-      <workItem from="1527025299430" duration="2349000" />
+      <workItem from="1527025299430" duration="2992000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2349000" />
+    <option name="totallyTimeSpent" value="2992000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1239" height="1057" extended-state="0" />
-    <editor active="true" />
+    <frame x="0" y="23" width="1038" height="1057" extended-state="0" />
     <layout>
       <window_info anchor="right" id="Palette" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -272,12 +271,12 @@
       <window_info anchor="bottom" id="Event Log" side_tool="true" />
       <window_info anchor="right" id="Maven Projects" />
       <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32916668" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32916668" />
       <window_info anchor="bottom" id="Version Control" />
-      <window_info anchor="bottom" id="Terminal" />
+      <window_info active="true" anchor="bottom" id="Terminal" visible="true" weight="0.32916668" />
       <window_info id="Capture Tool" />
       <window_info id="Designer" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.13617377" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.28413653" />
       <window_info anchor="right" id="Database" />
       <window_info id="Learn" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -313,13 +312,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/model/Vehicle.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="261">
-          <caret line="22" column="25" selection-start-line="22" selection-start-column="25" selection-end-line="22" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/services/VehicleServices.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="152">
@@ -334,17 +326,31 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/model/Vehicle.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="350">
+          <caret line="22" column="25" selection-start-line="22" selection-start-column="25" selection-end-line="22" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/services/VehicleServicesImpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="412">
-          <caret line="35" column="20" selection-start-line="35" selection-start-column="20" selection-end-line="35" selection-end-column="20" />
+        <state relative-caret-position="194">
+          <caret line="36" selection-start-line="36" selection-end-line="36" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/database/GarageDaoImpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="489">
+        <state relative-caret-position="1330">
           <caret line="75" column="13" lean-forward="true" selection-start-line="75" selection-start-column="13" selection-end-line="75" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/database/ConnectDB.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="475">
+          <caret line="27" lean-forward="true" selection-start-line="27" selection-end-line="27" />
         </state>
       </provider>
     </entry>
