@@ -38,7 +38,7 @@ public class VehicleServicesImpl implements VehicleServices {
             System.out.println("\nThere are not available spots in the garage at this moment, please come back later");
             return false;
         } else {
-            System.out.println("\nRight now there are " + (10-spots) + " spots available.");
+            System.out.println("\nRight now there are " + (10 - spots) + " spots available.");
             return true;
         }
     }
@@ -46,9 +46,10 @@ public class VehicleServicesImpl implements VehicleServices {
 
     @Override
     public void registerVehicle(String driverName, String vehicleType, String plateNumber) {
+        int spot = garageDao.getAllVehicles().size();
         double price = vehicleType.equals("Car") ? 3.0 : 1.5;
         String employee = findEmployeeInShift();
-        Vehicle vehicle = new Vehicle(price, vehicleType, driverName, employee, plateNumber);
+        Vehicle vehicle = new Vehicle(price, vehicleType, driverName, employee, plateNumber, spot);
         garageDao.registerVehicle(vehicle);
     }
 

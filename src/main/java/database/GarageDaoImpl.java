@@ -11,26 +11,32 @@ public class GarageDaoImpl extends ConnectDB implements GarageDao {
 
     @Override
     public void registerVehicle(Vehicle vehicle) {
+        String sql;
         try {
             this.open();
-            PreparedStatement statement = this.conn.prepareStatement("insert into vehicle (vehicleid, price, " +
-                    "vehicle_type, spot, customer, employee, plate_number, time_stamp) " +
-                    "values (default, ?, ?, ?, default , default , ?, now())");
-            statement.setDouble(2, vehicle.getPrice());
-            statement.executeUpdate();
-            statement.setString(3, vehicle.getType());
-            statement.executeUpdate();
-            statement.setInt(4, vehicle.getSpot());
-            statement.executeUpdate();
-            statement.setString(7, vehicle.getPlateNumber());
 
-            statement = this.conn.prepareStatement("insert into customer (id, customer) " +
-                    "values (default, ?) ");
-            statement.setString(2, vehicle.getCustomer());
+            sql =   "insert into vehicle (id, price, vehicle_type, spot, " +
+                    "customerid, employeeid, plate_number, time_stamp) " +
+                    "values (default, ?, ?, ?, default , default , ?, now())";
+            PreparedStatement statement = this.conn.prepareStatement(sql);
+            statement.setDouble(1, vehicle.getPrice());
+            statement.setString(2, vehicle.getType());
+            statement.setInt(3, vehicle.getSpot());
+            statement.setString(4, vehicle.getPlateNumber());
             statement.executeUpdate();
 
-            statement = this.conn.prepareStatement();
-            statement.setString(6, vehicle.getEmployee());
+
+            sql = "insert into customer (id, customer) "
+                    + "values (default, ?) ";
+            statement = this.conn.prepareStatement(sql);
+            statement.setString(1, vehicle.getCustomer());
+            statement.executeUpdate();
+
+
+            sql = "insert into employee (id, employee) "
+                    + "values (default, ?) ";
+            statement = this.conn.prepareStatement(sql);
+            statement.setString(1, vehicle.getEmployee());
             statement.executeUpdate();
         } catch(SQLException e) {
             System.out.println("Query failed: " + e.getMessage());
@@ -54,6 +60,7 @@ public class GarageDaoImpl extends ConnectDB implements GarageDao {
         try {
             this.open();
             PreparedStatement statement = this.conn.prepareStatement(sql);
+            statement.executeUpdate();
             vehiclesList = new ArrayList<>();
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
