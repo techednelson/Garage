@@ -1,8 +1,8 @@
 package services;
 
 import database.GarageDao;
-import database.GarageDaoImpl;
-import model.Vehicle;
+import database.*;
+import model.*;
 
 import java.sql.Timestamp;
 
@@ -42,29 +42,63 @@ public class VehicleServicesImpl implements VehicleServices {
         }
     }
 
-
     @Override
     public void registerVehicle(String driverName, String vehicleType, String plateNumber) {
         int spot = garageDao.getAllVehicles().size();
         double price = vehicleType.equals("Car") ? 3.0 : 1.5;
-        String employee = findEmployeeInShift();
+        String employee = findEmployeeOnDuty();
         int employeeID = employee.equals("Alicia Keys") ? 1 : employee.equals("Jose Rodriguez") ? 2 : 3;
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         Vehicle vehicle = new Vehicle(price, vehicleType, driverName, employee, employeeID, plateNumber, spot, timestamp);
         garageDao.registerVehicle(vehicle);
+        printTicket(price, vehicleType, driverName, employee, plateNumber, timestamp);
+        Customer customer = new Customer();
+        customer.setName(driverName);
+        customer.setVehicles(vehicle);
+
     }
 
-    private String findEmployeeInShift() {
-        int random = (int)(Math.random() * 3 + 1); //random number between 1 and 3
-        switch (random) {
-            case 1:
-                return "Alicia Keys";
-            case 2:
-                return "Jose Rodriguez";
-
-            case 3:
-                return "Will Smith";
-        }
-        return  null;
+    private String findEmployeeOnDuty() {
+        int random = (int)(Math.random() * 3 + 1);
+        return random == 1 ? "Alicia Keys" : random == 2 ? "Jose Rodriguez" : "Will Smith";
     }
+
+    private void printTicket(double price, String vehicleType, String driverName, String employee, String plateNumber, Timestamp timestamp) {
+        System.out.println("\n                               TICKET                               ");
+        System.out.println("\n=====================================================================");
+        System.out.println(" Timestamp: " + timestamp);
+        System.out.println(" Vehicle: " + vehicleType + "   Vehicle_Number_ID: " + plateNumber + "\n " +
+                "Price/Hour: " +
+                price +
+                " Euros\n " +
+                "Driver: "
+                + driverName + "\n Employee on duty: " + employee);
+        System.out.println("=====================================================================");
+    }
+
+    @Override
+    public Vehicle searchVehicle(String plateNumber) {
+        return garageDao.getVehicle(plateNumber);
+    }
+
+    @Override
+    public void calculateBalance(boolean discount) {
+
+    }
+
+    @Override
+    public void payVehicleBill() {
+
+    }
+
+    @Override
+    public void collectVehicle() {
+
+    }
+
+    @Override
+    public void checkStaffDetails() {
+
+    }
+
 }

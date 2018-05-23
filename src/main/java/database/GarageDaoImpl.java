@@ -80,6 +80,42 @@ public class GarageDaoImpl extends ConnectDB implements GarageDao {
     }
 
     @Override
+    public Vehicle getVehicle(String plateNumber) {
+        Vehicle vehicle = null;
+        String sql = "select * from vehicle v " +
+                "inner join customer c " +
+                "on v.customerid = c.id " +
+                "inner join employee e " +
+                "on v.employeeid = e.id";
+        try {
+            this.open();
+            PreparedStatement statement = this.conn.prepareStatement(sql);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                if(resultSet.getString("plate_number").equals(plateNumber)) {
+                    vehicle = new Vehicle();
+                    vehicle.setPrice(resultSet.getDouble("price"));
+                    vehicle.setType(resultSet.getString("vehicle_type"));
+                    vehicle.setSpot(resultSet.getInt("spot"));
+                    vehicle.setCustomer(resultSet.getString("customer"));
+                    vehicle.setEmployee(resultSet.getString("employee"));
+                    vehicle.setPlateNumber(resultSet.getString("plate_number"));
+                    return vehicle;
+                }
+            }
+        } catch(SQLException e) {
+            System.out.println("Query failed: " + e.getMessage());
+        } finally {
+            try {
+                this.close();
+            } catch (SQLException e) {
+                System.out.println("Couldn't close connection to database: " + e.getMessage());
+            }
+        }
+        return null;
+    }
+
+    @Override
     public void updateVehicle() throws SQLException {
 
     }
