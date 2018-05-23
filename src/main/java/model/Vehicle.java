@@ -14,12 +14,13 @@ public class Vehicle {
 
     public Vehicle() {}
 
-    public Vehicle(double price, String type, String customer, String employee, String plateNumber) {
+    public Vehicle(double price, String type, String customer, String employee, String plateNumber, int spot) {
         this.price = price;
         this.type = type;
         this.customer = customer;
         this.customer = employee;
         this.plateNumber = plateNumber;
+        this.spot = spot;
     }
 
     public String getType() { return type; }
