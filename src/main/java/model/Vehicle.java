@@ -9,18 +9,21 @@ public class Vehicle {
     private int spot;
     private String customer;
     private String employee;
+    private int employeeID;
     private String plateNumber;
     private Timestamp timestamp;
 
     public Vehicle() {}
 
-    public Vehicle(double price, String type, String customer, String employee, String plateNumber, int spot) {
+    public Vehicle(double price, String type, String customer, String employee, int employeeID, String plateNumber, int spot, Timestamp timestamp) {
         this.price = price;
         this.type = type;
         this.customer = customer;
-        this.customer = employee;
+        this.employee = employee;
+        this.employeeID = employeeID;
         this.plateNumber = plateNumber;
         this.spot = spot;
+        this.timestamp = timestamp;
     }
 
     public String getType() { return type; }
@@ -42,6 +45,10 @@ public class Vehicle {
     public void setEmployee(String employee) { this.employee = employee; }
 
     public String  getEmployee() { return employee; }
+
+    public int getEmployeeID() { return employeeID; }
+
+    public void setEmployeeID(int employeeID) { this.employeeID = employeeID; }
 
     public String getPlateNumber() { return plateNumber; }
 

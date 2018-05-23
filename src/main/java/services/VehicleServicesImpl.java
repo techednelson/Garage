@@ -2,7 +2,6 @@ package services;
 
 import database.GarageDao;
 import database.GarageDaoImpl;
-import model.Employee;
 import model.Vehicle;
 
 import java.sql.Timestamp;
@@ -49,24 +48,23 @@ public class VehicleServicesImpl implements VehicleServices {
         int spot = garageDao.getAllVehicles().size();
         double price = vehicleType.equals("Car") ? 3.0 : 1.5;
         String employee = findEmployeeInShift();
-        Vehicle vehicle = new Vehicle(price, vehicleType, driverName, employee, plateNumber, spot);
+        int employeeID = employee.equals("Alicia Keys") ? 1 : employee.equals("Jose Rodriguez") ? 2 : 3;
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        Vehicle vehicle = new Vehicle(price, vehicleType, driverName, employee, employeeID, plateNumber, spot, timestamp);
         garageDao.registerVehicle(vehicle);
     }
 
     private String findEmployeeInShift() {
-        int random = (int)(Math.random() * 3 + 1);
-        String employee = null;
+        int random = (int)(Math.random() * 3 + 1); //random number between 1 and 3
         switch (random) {
             case 1:
-                employee = Employee.Alicia_keys.toString().replace("^[a-zA-Z]+_\\d_\\d_\\d{1,2}$", " ");
-                break;
+                return "Alicia Keys";
             case 2:
-                employee = Employee.Jose_Rodriguez.toString().replace("^[a-zA-Z]+_\\d_\\d_\\d{1,2}$", " ");
-            break;
+                return "Jose Rodriguez";
+
             case 3:
-                employee = Employee.Will_Smith.toString().replace("^[a-zA-Z]+_\\d_\\d_\\d{1,2}$", " ");
-            break;
+                return "Will Smith";
         }
-        return  employee;
+        return  null;
     }
 }
