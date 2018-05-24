@@ -1,5 +1,6 @@
 package main;
 
+import database.GarageDaoImpl;
 import model.Vehicle;
 import services.*;
 
@@ -13,10 +14,19 @@ public class main {
     private static int option;
     private static boolean valid = false;
     private static boolean exit = false;
+    private static VehicleServices vs = new VehicleServicesImpl();
 
     public static void main(String[] args) {
-        VehicleServices vs = new VehicleServicesImpl();
+
+        // build database from scratch
+        GarageDaoImpl garageDao = new GarageDaoImpl();
+        garageDao.createDatabase();
+
+
+        boolean isVehicleInGarage;
+
         exit = false;
+
         while(!exit) {
             printMenu();
             option = 0;
@@ -36,12 +46,15 @@ public class main {
                         vs.printGarage();
                         break;
                     case 2:
-                        if(vs.countAvailableSpots()) {
-                            String driverName = validateName();
+                        boolean isThereAvailableSpots = vs.countAvailableSpots();
+                        if(isThereAvailableSpots) {
+                            String driverName = validateName().toLowerCase();
                             String vehicleType = validateVehicleType();
                             plateNumber = validatePlateNumber();
-                            if(vs.searchVehicle(plateNumber) != null) {
+                            isVehicleInGarage = vs.searchVehicle(plateNumber) != null;
+                            if(!isVehicleInGarage) {
                                 vs.registerVehicle(driverName, vehicleType, plateNumber);
+                                vs.parkVehicle(vehicleType, plateNumber);
                             } else {
                                 System.out.println("There was an error, your vehicle already exist in our system, please try again!");
                                 continue;
@@ -49,29 +62,20 @@ public class main {
                         }
                         break;
                     case 3:
+
+                        Vehicle vehicle;
+
                         plateNumber = validatePlateNumber();
-                        Vehicle vehicle = vs.searchVehicle(plateNumber);
-                        boolean discount = vs.checkDiscount(vehicle.getCustomer());
-                        if(vehicle != null) {
-                            option = selectFromSubmenu();
-                            switch (option) {
-                                case 1:
-                                    vs.calculateBill(discount, vehicle);
-                                    break;
-                                case 2:
-                                    vs.payVehicleBill(discount, vehicle);
-                                    vs.collectVehicle();
-                                    break;
-                                case 3:
-                                    vs.checkStaffDetails();
-                                    break;
-                                case 4:
-                                    System.out.println("Thanks for using the parking lot. Come back soon!");
-                                    exit = true;
-                                    break;
-                            }
+                        isVehicleInGarage = vs.searchVehicle(plateNumber) != null;
+
+                        if(isVehicleInGarage) {
+
+                            vehicle = vs.searchVehicle(plateNumber);
+                            selectFromSubmenu(vehicle);
+
+                            exit = false;
                         } else {
-                            System.out.println("There was an error, your vehicle already exist in our system, please try again!");
+                            System.out.println("There was an error, it seems that your vehicle is not in our system, please try again!");
                             continue;
                         }
                         break;
@@ -97,19 +101,19 @@ public class main {
         System.out.println("4. Exit");
     }
 
-    private static int selectFromSubmenu() {
-        System.out.println("\nPlease select 1, 2 3 or 4: \n");
-        System.out.println("1. Check total time and money spent until now.");
-        System.out.println("2. Pay and collect your vehicle.");
-        System.out.println("3. Staff details.");
-        System.out.println("4. <= Go back.");
+    private static void selectFromSubmenu(Vehicle vehicle) {
         exit = false;
         while(!exit) {
+
+            System.out.println("\nPlease select 1, 2 3 or 4: \n");
+            System.out.println("1. Check total time and money spent until now.");
+            System.out.println("2. Pay and collect your vehicle.");
+            System.out.println("3. Staff details.");
+            System.out.println("4. <= Go back.");
+
             option = 0;
             try {
                 option = Integer.parseInt(br.readLine());
-                if(option >= 1 && option <= 4) exit = true;
-                else System.out.println("You must select a number between 1 and 4.\n");
             } catch (NumberFormatException e) {
                 System.out.println("You must enter integer 1,2,3 or 4, please try again!");
                 continue;
@@ -117,8 +121,31 @@ public class main {
                 System.out.println("You must enter an integer, please start again!" + e.getMessage());
                 continue;
             }
+
+            switch (option) {
+                case 1:
+                    vs.checkDiscount(vehicle.getCustomer().toLowerCase());
+                    vs.calculateBill(vehicle);
+                    break;
+                case 2:
+                    vs.checkDiscount(vehicle.getCustomer().toLowerCase());
+                    vs.payVehicleBill(vehicle);
+                    vs.collectVehicleFromGarage(vehicle);
+                    exit = true;
+                    break;
+                case 3:
+                    vs.checkStaffDetails(vehicle);
+                    break;
+                case 4:
+                    System.out.println("Thanks for using the parking lot. Come back soon!");
+                    exit = true;
+                    break;
+                default:
+                    System.out.println("\n The option you entered is not available or does not exist, please " +
+                            "try again!");
+                    break;
+            }
         }
-        return option;
     }
 
     private static String validateName() {
@@ -133,6 +160,7 @@ public class main {
                     System.out.println("Please enter letters in stead of digits & leave space between your name and last name. You must start the registration again.");
                     continue;
                 }
+                valid = true;
             }  catch (IOException e) {
                 System.out.println("You must enter your name correctly, please start again!");
                 continue;
@@ -159,6 +187,7 @@ public class main {
                     continue;
                 }
                 vehicleType = number == 1 ? "Car" : "Motorcycle";
+                valid = true;
             } catch (NumberFormatException e) {
                 System.out.println("You must enter integer 1 or 2, please start again!");
                 continue;
@@ -190,19 +219,6 @@ public class main {
             }
         }
         return plateNumber;
-    }
-
-    private static void printGarageDis(String[] distribution) {
-        System.out.print("\n                          PARKING LOT                        ");
-        for(int i = 0; i < 20; ++i) {
-            if(i % 5 == 0) {
-                System.out.print("\n=====================================================================\n");
-                System.out.print(distribution[i]);
-            } else {
-                System.out.print(distribution[i]);
-            }
-        }
-        System.out.println("\n=====================================================================\n");
     }
 
 }

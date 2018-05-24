@@ -10,16 +10,18 @@ public interface VehicleServices {
 
     void registerVehicle(String driverName, String vehicleType, String plateNumber);
 
+    void parkVehicle(String vehicleType, String plateNumber);
+
     Vehicle searchVehicle(String plateNumber);
 
-    boolean checkDiscount(String driverName);
+    void checkDiscount(String driverName);
 
-    void calculateBill(boolean discount, Vehicle vehicle);
+    void calculateBill(Vehicle vehicle);
 
-    void payVehicleBill(boolean discount, Vehicle vehicle);
+    void payVehicleBill(Vehicle vehicle);
 
-    void collectVehicle();
+    void collectVehicleFromGarage(Vehicle vehicle);
 
-    void checkStaffDetails();
+    void checkStaffDetails(Vehicle vehicle);
 
 }

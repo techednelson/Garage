@@ -6,13 +6,15 @@ import model.*;
 
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
-import java.util.concurrent.TimeUnit;
+import java.util.ArrayList;
 
 public class VehicleServicesImpl implements VehicleServices {
 
     private static Timestamp finalEndTime;
     private static double finalTotalCost = 0;
     private static int finalTotalTime = 0;
+
+    private static ArrayList<String> customersWithDiscount = new ArrayList<>();
 
     private GarageDao garageDao = new GarageDaoImpl();
     private String[] garage = {
@@ -79,14 +81,27 @@ public class VehicleServicesImpl implements VehicleServices {
         printTicket(price, vehicleType, driverName, employee, plateNumber, timestamp);
     }
 
-
     @Override
-    public Vehicle searchVehicle(String plateNumber) {
-        return garageDao.getVehicle(plateNumber);
+    public void parkVehicle(String vehicleType, String plateNumber) {
+        for(int i = 0; i < garage.length; i++) {
+            if(!(garage[i].contains("{M}") || garage[i].contains("{C}"))) {
+                garage[i] = vehicleType.equals("Car") ? "     {C}     ": "     {M}     ";
+                garage[i+5] = "ID:" + plateNumber + "     ";
+                break;
+            }
+            if(i == 5) i+=5;
+        }
     }
 
     @Override
-    public boolean checkDiscount(String driverName) { return garageDao.checkDiscount(driverName); }
+    public Vehicle searchVehicle(String plateNumber) {
+        return garageDao.searchVehicle(plateNumber);
+    }
+
+    @Override
+    public void checkDiscount(String driverName) {
+        if(garageDao.checkDiscount(driverName)) customersWithDiscount.add(driverName);
+    }
 
     private int generateTimeInGarageInMinutes() {
         int totalTime = 0; // Total time to be charged in minutes
@@ -102,9 +117,13 @@ public class VehicleServicesImpl implements VehicleServices {
 
     }
 
-
     @Override
-    public void calculateBill (boolean discount, Vehicle vehicle) {
+    public void calculateBill (Vehicle vehicle) {
+        boolean discount = false;
+        for(String customer : customersWithDiscount) {
+            discount = customer.toLowerCase().equals(vehicle.getCustomer().toLowerCase());
+
+        }
         double totalCost = 0;
         int totalTimeInMins = generateTimeInGarageInMinutes();
         int totalTimeInHours = totalTimeInMins / 60;
@@ -112,7 +131,8 @@ public class VehicleServicesImpl implements VehicleServices {
         if (totalTimeInMins == -1 ) return;
 
         // Minutes spent in parking lot. The maximum time spent in the parking lot is 24 hours.
-        Long startTime = vehicle.getTimestamp().getTime(); // time in milliseconds
+        Long startTime; // time in milliseconds
+        startTime = vehicle.getTimestamp().getTime();
         Timestamp endTime =  new Timestamp(startTime + (totalTimeInMins * 60 * 1000));
 
         // Total time to be charged in minutes
@@ -125,7 +145,7 @@ public class VehicleServicesImpl implements VehicleServices {
         if(discount)
             totalCost *= 0.70; // 30% discount applied
 
-        printVehicleBill(discount, endTime, vehicle, totalCost, totalTimeInMins);
+        printVehicleBill(discount, endTime, vehicle, totalCost, totalTimeInHours);
         finalEndTime = endTime;
         finalTotalCost = totalCost;
         finalTotalTime = totalTimeInMins;
@@ -149,18 +169,39 @@ public class VehicleServicesImpl implements VehicleServices {
         System.out.println("=====================================================================");
     }
 
-    private void parkingDisMethod() {
+    /*
+        In case customer had selected calculateBill method in option 1 before finalTotalTime would be different from  0, so there will not be need
+        to calculate anything, so values from variables finalEndTime, finalTotalCost, finalTotalTime would be used.
+        By the contrary if customer selects directly payVehicleBill, calculateBill would be invoked, using values from local variables.
+     */
+    @Override
+    public void payVehicleBill(Vehicle vehicle) {
+        boolean discount = false;
+
+        for(String customer : customersWithDiscount) {
+            discount = customer.toLowerCase().equals(vehicle.getCustomer().toLowerCase());
+        }
+
+        if(finalTotalTime == 0)
+            calculateBill(vehicle);
+
+        else
+            printVehicleBill(discount, finalEndTime, vehicle, finalTotalCost, finalTotalTime);
+
+
+        System.out.println(" BILL PAID: Thanks for using our parking lot. Come back soon.\n");
+    }
+
+    @Override
+    public void collectVehicleFromGarage(Vehicle vehicle) {
+
+        garageDao.deleteVehicle(vehicle);
 
         for(int i = 0; i < garage.length; i++) {
-            if(garage[i].contains(this.getVehicleID())) {
+            if(garage[i].contains(vehicle.getPlateNumber())) {
                 garage[i-5] = "     { }     ";
                 garage[i] = "ID:          ";
                 break;
-            }
-        }
-        for(int i = StaticDB.getGarageVehiclesDB().size() - 1; i >= 0; i--) {
-            if(StaticDB.getGarageVehiclesDB().get(i).getVehicleID().equals(this.getVehicleID())) {
-                StaticDB.removeVehicleGarageDB(StaticDB.getGarageVehiclesDB().get(i));
             }
         }
 
@@ -168,34 +209,28 @@ public class VehicleServicesImpl implements VehicleServices {
         for(int i = 0; i < 20; ++i) {
             if(i % 5 == 0) {
                 System.out.print("\n=====================================================================\n");
-                System.out.print(StaticDB.getGarage()[i]);
-            } else {
-                System.out.print(StaticDB.getGarage()[i]);
-            }
+                System.out.print(garage[i]);
+            } else
+                System.out.print(garage[i]);
         }
         System.out.println("\n=====================================================================\n");
     }
 
     @Override
-    public void payVehicleBill(boolean discount, Vehicle vehicle) {
-
-        if(finalTotalTime == 0) calculateBill(discount, vehicle);
-
-        else printVehicleBill(discount, finalEndTime, vehicle, finalTotalCost, finalTotalTime);
-
-
-        System.out.println(" BILL PAID: Thanks for using our parking lot. Come back soon.\n");
-        parkingDisMethod();
-    }
-
-    @Override
-    public void collectVehicle() {
-
-    }
-
-    @Override
-    public void checkStaffDetails() {
-
+    public void checkStaffDetails(Vehicle vehicle) {
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        String employeeOnDuty = findEmployeeOnDuty();
+        System.out.println("\n                        PARKING LOT STAFF                            ");
+        System.out.println("\n=====================================================================");
+        System.out.println(" Timestamp: " + timestamp);
+        System.out.println(" Vehicle: " + vehicle.getType() + "   Vehicle_Number_ID: " + vehicle.getPlateNumber() + "\n " +
+                "Price/Hour: " +
+                vehicle.getPrice() +
+                " Euros\n " +
+                "Driver: "
+                + vehicle.getCustomer() + "\n Employee who parked the vehicle: " + vehicle.getEmployee());
+        System.out.println(" Employee currently on duty: " + employeeOnDuty);
+        System.out.println("\n=====================================================================");
     }
 
 }
