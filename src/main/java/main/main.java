@@ -1,5 +1,6 @@
 package main;
 
+import model.Vehicle;
 import services.*;
 
 import java.io.BufferedReader;
@@ -15,7 +16,6 @@ public class main {
 
     public static void main(String[] args) {
         VehicleServices vs = new VehicleServicesImpl();
-        CustomerServices cs = new CustomerServicesImpl();
         exit = false;
         while(!exit) {
             printMenu();
@@ -50,15 +50,16 @@ public class main {
                         break;
                     case 3:
                         plateNumber = validatePlateNumber();
-                        if(vs.searchVehicle(plateNumber) != null) {
+                        Vehicle vehicle = vs.searchVehicle(plateNumber);
+                        boolean discount = vs.checkDiscount(vehicle.getCustomer());
+                        if(vehicle != null) {
                             option = selectFromSubmenu();
                             switch (option) {
                                 case 1:
-                                    boolean discount = cs.checkDiscount();
-                                    vs.calculateBalance(discount);
+                                    vs.calculateBill(discount, vehicle);
                                     break;
                                 case 2:
-                                    vs.payVehicleBill();
+                                    vs.payVehicleBill(discount, vehicle);
                                     vs.collectVehicle();
                                     break;
                                 case 3:

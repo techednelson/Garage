@@ -12,9 +12,11 @@ public interface VehicleServices {
 
     Vehicle searchVehicle(String plateNumber);
 
-    void calculateBalance(boolean discount);
+    boolean checkDiscount(String driverName);
 
-    void payVehicleBill();
+    void calculateBill(boolean discount, Vehicle vehicle);
+
+    void payVehicleBill(boolean discount, Vehicle vehicle);
 
     void collectVehicle();
 
