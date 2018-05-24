@@ -116,6 +116,27 @@ public class GarageDaoImpl extends ConnectDB implements GarageDao {
     }
 
     @Override
+    public boolean checkDiscount(String driverName) {
+        String sql = "select count(customer) from customer " +
+                    "where customer = " + driverName;
+        try {
+            this.open();
+            PreparedStatement statement = this.conn.prepareStatement(sql);
+            ResultSet resultSet = statement.executeQuery();
+            return resultSet.getInt(0) >= 2;
+        } catch(SQLException e) {
+            System.out.println("Query failed: " + e.getMessage());
+        } finally {
+            try {
+                this.close();
+            } catch (SQLException e) {
+                System.out.println("Couldn't close connection to database: " + e.getMessage());
+            }
+        }
+        return false;
+    }
+
+    @Override
     public void updateVehicle() throws SQLException {
 
     }
