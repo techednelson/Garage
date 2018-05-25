@@ -11,7 +11,7 @@ public class ConnectDB {
     final String URL_DB = "jdbc:postgresql://localhost:5432/garageDB";
 
     final String USER = "postgres";
-    final String PASSWORD = "!@#321Nel";
+    final String PASSWORD = " ";
 
     public void createDatabase() {
         String sql;
