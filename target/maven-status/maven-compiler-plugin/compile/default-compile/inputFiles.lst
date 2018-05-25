@@ -1,6 +1,7 @@
-/Users/madagaskar/Documents/Software Development/PROJECTS/Java/AcademyProjects/Garage/src/main/java/database/GarageDao.java
-/Users/madagaskar/Documents/Software Development/PROJECTS/Java/AcademyProjects/Garage/src/main/java/model/Customer.java
-/Users/madagaskar/Documents/Software Development/PROJECTS/Java/AcademyProjects/Garage/src/main/java/database/GarageDaoImpl.java
-/Users/madagaskar/Documents/Software Development/PROJECTS/Java/AcademyProjects/Garage/src/main/java/main/main.java
-/Users/madagaskar/Documents/Software Development/PROJECTS/Java/AcademyProjects/Garage/src/main/java/database/ConnectDB.java
-/Users/madagaskar/Documents/Software Development/PROJECTS/Java/AcademyProjects/Garage/src/main/java/model/Vehicle.java
+/home/nelson/dev/JavaAcademyProjects/GarageDao/src/main/java/database/GarageDaoImpl.java
+/home/nelson/dev/JavaAcademyProjects/GarageDao/src/main/java/model/Vehicle.java
+/home/nelson/dev/JavaAcademyProjects/GarageDao/src/main/java/main/main.java
+/home/nelson/dev/JavaAcademyProjects/GarageDao/src/main/java/services/VehicleServices.java
+/home/nelson/dev/JavaAcademyProjects/GarageDao/src/main/java/database/ConnectDB.java
+/home/nelson/dev/JavaAcademyProjects/GarageDao/src/main/java/database/GarageDao.java
+/home/nelson/dev/JavaAcademyProjects/GarageDao/src/main/java/services/VehicleServicesImpl.java

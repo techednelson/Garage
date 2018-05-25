@@ -8,10 +8,10 @@ import java.sql.SQLException;
 public class ConnectDB {
     protected Connection conn;
 
-    final String URL_DB = "jdbc:postgresql://localhost:5433/garageDB";
+    final String URL_DB = "jdbc:postgresql://localhost:5432/garageDB";
 
     final String USER = "postgres";
-    final String PASSWORD = "";
+    final String PASSWORD = "!@#321Nel";
 
     public void createDatabase() {
         String sql;

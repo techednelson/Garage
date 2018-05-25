@@ -1,7 +1,7 @@
-model/Vehicle$Employee.class
 database/ConnectDB.class
+services/VehicleServicesImpl.class
 database/GarageDaoImpl.class
-model/Customer.class
 main/main.class
+services/VehicleServices.class
 database/GarageDao.class
 model/Vehicle.class

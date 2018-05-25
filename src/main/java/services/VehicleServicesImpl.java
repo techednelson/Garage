@@ -13,6 +13,7 @@ public class VehicleServicesImpl implements VehicleServices {
     private static Timestamp finalEndTime;
     private static double finalTotalCost = 0;
     private static int finalTotalTime = 0;
+    private static int spots = 0;
 
     private static ArrayList<String> customersWithDiscount = new ArrayList<>();
 
@@ -41,7 +42,7 @@ public class VehicleServicesImpl implements VehicleServices {
 
     @Override
     public boolean countAvailableSpots() {
-        int spots = garageDao.getAllVehicles().size();
+        spots = garageDao.getAllVehicles().size();
         if(spots >= 10) {
             System.out.println("\nThere are not available spots in the garage at this moment, please come back later");
             return false;

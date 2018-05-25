@@ -50,7 +50,7 @@ public class main {
                         if(isThereAvailableSpots) {
                             String driverName = validateName().toLowerCase();
                             String vehicleType = validateVehicleType();
-                            plateNumber = validatePlateNumber();
+                            plateNumber = validatePlateNumber().toUpperCase();
                             isVehicleInGarage = vs.searchVehicle(plateNumber) != null;
                             if(!isVehicleInGarage) {
                                 vs.registerVehicle(driverName, vehicleType, plateNumber);
@@ -65,7 +65,7 @@ public class main {
 
                         Vehicle vehicle;
 
-                        plateNumber = validatePlateNumber();
+                        plateNumber = validatePlateNumber().toUpperCase();
                         isVehicleInGarage = vs.searchVehicle(plateNumber) != null;
 
                         if(isVehicleInGarage) {
@@ -75,7 +75,7 @@ public class main {
 
                             exit = false;
                         } else {
-                            System.out.println("There was an error, it seems that your vehicle is not in our system, please try again!");
+                            System.out.println("There was an error, it seems that plate number is incorrect or your vehicle is not in our system, please try again!");
                             continue;
                         }
                         break;
@@ -124,11 +124,11 @@ public class main {
 
             switch (option) {
                 case 1:
-                    vs.checkDiscount(vehicle.getCustomer().toLowerCase());
+                    vs.checkDiscount(vehicle.getCustomer());
                     vs.calculateBill(vehicle);
                     break;
                 case 2:
-                    vs.checkDiscount(vehicle.getCustomer().toLowerCase());
+                    vs.checkDiscount(vehicle.getCustomer());
                     vs.payVehicleBill(vehicle);
                     vs.collectVehicleFromGarage(vehicle);
                     exit = true;
@@ -186,7 +186,7 @@ public class main {
                     System.out.println("Please select option 1 or 2 if your Vehicle is a Car or a Motorcycle respectively. You must start the registration again.");
                     continue;
                 }
-                vehicleType = number == 1 ? "Car" : "Motorcycle";
+                vehicleType = number == 1 ? "car" : "motorcycle";
                 valid = true;
             } catch (NumberFormatException e) {
                 System.out.println("You must enter integer 1 or 2, please start again!");

@@ -100,7 +100,7 @@ public class GarageDaoImpl extends ConnectDB implements GarageDao {
             PreparedStatement statement = this.conn.prepareStatement(sql);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                if(resultSet.getString("plate_number").equals(plateNumber.toUpperCase())) {
+                if(resultSet.getString("plate_number").equals(plateNumber)) {
                     vehicle = new Vehicle();
                     vehicle.setType(resultSet.getString("vehicle_type"));
                     vehicle.setPrice(resultSet.getDouble("price"));
@@ -126,14 +126,19 @@ public class GarageDaoImpl extends ConnectDB implements GarageDao {
 
     @Override
     public boolean checkDiscount(String driverName) {
-        String sql = "select count(customer) from customer " +
-                    "where customer = " + driverName + ";";
+
+        int count = 0;
+        String sql = "select count(*) from customer " +
+                     "where customer = ?";
+
         try {
             this.openConnectionDB();
             PreparedStatement statement = this.conn.prepareStatement(sql);
+            statement.setString(1, driverName);
             ResultSet resultSet = statement.executeQuery();
-            int times = resultSet.getInt("customer");
-            return times >= 2;
+            resultSet.next();
+            count = resultSet.getInt(1);
+            System.out.println(count);
         } catch(SQLException e) {
             System.out.println("Query failed: " + e.getMessage());
         } finally {
@@ -143,7 +148,7 @@ public class GarageDaoImpl extends ConnectDB implements GarageDao {
                 System.out.println("Couldn't close connection to database: " + e.getMessage());
             }
         }
-        return false;
+        return count >= 2;
     }
 
     @Override
@@ -152,15 +157,19 @@ public class GarageDaoImpl extends ConnectDB implements GarageDao {
         PreparedStatement statement;
         try {
             this.openConnectionDB();
+
             sql = "delete from customer "
-                    + "where customer = " + vehicle.getCustomer();
+                    + "where customer = ?";
             statement = this.conn.prepareStatement(sql);
-            statement.executeUpdate();
+            statement.setString(1,  vehicle.getCustomer());
 
             sql =  "delete from vehicle " +
-                    "where plate_number = " + vehicle.getPlateNumber();
+                    "where plate_number = ?";
             statement = this.conn.prepareStatement(sql);
+            statement.setString(1, vehicle.getPlateNumber());
+
             statement.executeUpdate();
+
         } catch(SQLException e) {
             System.out.println("Query failed: " + e.getMessage());
         } finally {
